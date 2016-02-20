@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Android Fundamentals</string>
+    <string name="button1_text">OnClick from Layout</string>
+    <string name="button2_text">OnClick from Class</string>
+    <string name="message1">Ejecución de botón 1</string>
+    <string name="message2">Ejecución de botón 2</string>
 </resources>
