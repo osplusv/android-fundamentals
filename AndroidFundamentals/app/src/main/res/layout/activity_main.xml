@@ -25,7 +25,7 @@
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Show fragment!"/>
+        android:text="Show fragment 2!"/>
 
     <FrameLayout
         android:id="@+id/fragment_container"

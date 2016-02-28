@@ -26,16 +26,26 @@ public class MainActivity extends AppCompatActivity {
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                 if (isFragmentVisible) {
-                    fragmentTransaction.remove(mf2);
-                    buttonMessage = "Show fragment!";
+                    fragmentTransaction.replace(R.id.fragment_container, new MyFragment3());
+                    buttonMessage = "Show fragment 2!";
                 } else {
-                    fragmentTransaction.add(R.id.fragment_container, mf2);
-                    buttonMessage = "Hide fragment!";
+                    fragmentTransaction.replace(R.id.fragment_container, new MyFragment2());
+                    buttonMessage = "Show fragment 3!";
                 }
+                fragmentTransaction.addToBackStack(null);
                 button.setText(buttonMessage);
                 fragmentTransaction.commit();
                 isFragmentVisible = !isFragmentVisible;
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0 ){
+            getSupportFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
