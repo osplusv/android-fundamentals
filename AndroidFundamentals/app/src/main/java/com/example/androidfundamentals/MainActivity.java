@@ -10,7 +10,6 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
     private Button button;
     private boolean isFragmentVisible = false;
-    private  MyFragment2 mf2 = new MyFragment2();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
