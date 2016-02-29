@@ -28,9 +28,9 @@ public class MainActivity extends AppCompatActivity {
 
         initDataset();
 
-        String[] keys = {"name","score"};
+        String[] from = { "name", "score" };
         int[] widgetIds = {android.R.id.text1, android.R.id.text2};
-        SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(), studentList, android.R.layout.simple_list_item_2, keys, widgetIds) {
+        SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(), studentList, android.R.layout.simple_list_item_2, from, widgetIds) {
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
