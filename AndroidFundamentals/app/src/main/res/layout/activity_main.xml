@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:text="@string/button1_text"
         android:layout_gravity="center"
+        android:background="@drawable/button_save"
         android:onClick="onClickFromLayout" />
 
     <Button
