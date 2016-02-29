@@ -37,20 +37,33 @@ public class StudentAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolderStudent holder;
+
         if (convertView == null) {
             convertView = parent.inflate(context, R.layout.student_item, null);
+
+            holder = new ViewHolderStudent();
+            holder.studentName = (TextView) convertView.findViewById(R.id.studentName);
+            holder.studentLastname = (TextView) convertView.findViewById(R.id.studentLastname);
+            holder.studentCareer = (TextView) convertView.findViewById(R.id.studentCareer);
+
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolderStudent) convertView.getTag();
         }
 
         Student student = (Student) getItem(position);
 
-        TextView studentName = (TextView) convertView.findViewById(R.id.studentName);
-        studentName.setText(student.getName());
+        holder.studentName.setText(student.getName());
+        holder.studentLastname.setText(student.getLastname());
+        holder.studentCareer.setText(student.getCareer());
 
-        TextView studentLastname = (TextView) convertView.findViewById(R.id.studentLastname);
-        studentLastname.setText(student.getLastname());
-
-        TextView studentCareer = (TextView) convertView.findViewById(R.id.studentCareer);
-        studentCareer.setText(student.getCareer());
         return convertView;
+    }
+
+    private static class ViewHolderStudent {
+        TextView studentName;
+        TextView studentLastname;
+        TextView studentCareer;
     }
 }
