@@ -1,6 +1,5 @@
 package com.example.androidfundamentals;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -13,6 +12,7 @@ import android.net.wifi.WifiManager;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
 
 import java.io.IOException;
 
@@ -34,7 +34,7 @@ public class ServiceStreaming extends Service implements MediaPlayer.OnPreparedL
     MediaPlayer mediaPlayer = null;
     WifiManager.WifiLock wifiLock;
     NotificationManager mNotificationManager;
-    Notification.Builder mNotificationBuilder = null;
+    NotificationCompat.Builder mNotificationBuilder = null;
 
 
     @Override
@@ -114,8 +114,10 @@ public class ServiceStreaming extends Service implements MediaPlayer.OnPreparedL
         }
     }
 
-    private void releaseResources(boolean releaseMediaPlayer) {
-        stopForeground(true);
+    private void releaseResources(boolean releaseMediaPlayer, boolean stopForeground) {
+        if (stopForeground) {
+            stopForeground(true);
+        }
 
         if (releaseMediaPlayer && mediaPlayer != null) {
             mediaPlayer.reset();
@@ -133,14 +135,17 @@ public class ServiceStreaming extends Service implements MediaPlayer.OnPreparedL
                 new Intent(getApplicationContext(), MainActivity.class),
                 PendingIntent.FLAG_UPDATE_CURRENT);
         // Build the notification object.
-        mNotificationBuilder = new Notification.Builder(getApplicationContext())
+        mNotificationBuilder = new NotificationCompat.Builder(getApplicationContext())
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setTicker(text)
                 .setWhen(System.currentTimeMillis())
                 .setContentTitle("RandomMusicPlayer")
                 .setContentText(text)
                 .setContentIntent(pi)
-                .setOngoing(true);
+                .setOngoing(true)
+                .addAction(generateAction(android.R.drawable.ic_media_play, "Play", "com.example.androidfundamentals.action.PLAY"))
+                .addAction(generateAction(android.R.drawable.ic_media_pause, "Pause", "com.example.androidfundamentals.action.PAUSE"))
+                .addAction(generateAction(android.R.drawable.ic_delete, "Stop", "com.example.androidfundamentals.action.STOP"));
         startForeground(NOTIFICATION_ID, mNotificationBuilder.build());
     }
 
@@ -148,21 +153,22 @@ public class ServiceStreaming extends Service implements MediaPlayer.OnPreparedL
         if (state == PLAYING_STATE) {
             state = PAUSED_STATE;
             mediaPlayer.pause();
-            releaseResources(false);
+            releaseResources(false, false);
+            setUpAsForeground("Pause");
         }
     }
 
     private void processStopRequest() {
         if (state == PLAYING_STATE || state == PAUSED_STATE) {
             state = STOPPED_STATE;
-            releaseResources(true);
+            releaseResources(true, true);
             stopSelf();
         }
     }
 
     private void play() {
         state = STOPPED_STATE;
-        releaseResources(false);
+        releaseResources(false, true);
 
         createMediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -181,5 +187,12 @@ public class ServiceStreaming extends Service implements MediaPlayer.OnPreparedL
         setUpAsForeground("loading...");
         mediaPlayer.prepareAsync();
         wifiLock.acquire();
+    }
+
+    private NotificationCompat.Action generateAction(int icon, String title, String intentAction ) {
+        Intent intent = new Intent(getApplicationContext(), ServiceStreaming.class );
+        intent.setAction(intentAction);
+        PendingIntent pendingIntent = PendingIntent.getService(getApplicationContext(), 1, intent, 0);
+        return new NotificationCompat.Action.Builder(icon, title, pendingIntent).build();
     }
 }
