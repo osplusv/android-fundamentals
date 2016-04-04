@@ -41,24 +41,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setAlarm();
-//                Calendar calendar = new GregorianCalendar(datePicker.getYear(),
-//                        datePicker.getMonth(),
-//                        datePicker.getDayOfMonth(),
-//                        timePicker.getCurrentHour(),
-//                        timePicker.getCurrentMinute());
-//
-//                calendar.add(Calendar.HOUR, -5);
-
-                //Calendar calendar = Calendar.getInstance();
-//                calendar.set(Calendar.HOUR, 12); // At the hour you wanna fire
-//                calendar.set(Calendar.MINUTE, 16); // Particular minute
-//                calendar.set(Calendar.SECOND, 0);
-
-                //Toast.makeText(getApplicationContext(), Double.toString(calendar.getTimeInMillis()), Toast.LENGTH_SHORT).show();
-//                System.out.println(calendar.getTimeInMillis());
-//
-//                int alarmType = AlarmManager.RTC_WAKEUP;
-//                alarmManager.setInexactRepeating(alarmType, calendar.getTimeInMillis(), 60*1000, alarmIntent);
             }
         });
     }
@@ -66,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
     private void setAlarm() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.YEAR, datePicker.getYear());
-        calendar.set(Calendar.MONTH, datePicker.getDayOfMonth());
         calendar.set(Calendar.HOUR_OF_DAY, timePicker.getCurrentHour()); // At the hour you wanna fire
         calendar.set(Calendar.MINUTE, timePicker.getCurrentMinute()); // Particular minute
         calendar.set(Calendar.SECOND, 0);
