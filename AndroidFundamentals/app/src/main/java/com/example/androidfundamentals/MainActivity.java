@@ -19,39 +19,63 @@ public class MainActivity extends AppCompatActivity {
     private AlarmManager alarmManager;
     private PendingIntent alarmIntent;
 
+    private DatePicker datePicker;
+    private TimePicker timePicker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         Button b = (Button) findViewById(R.id.button);
-        final DatePicker datePicker = (DatePicker) findViewById(R.id.datePicker);
-        final TimePicker timePicker = (TimePicker) findViewById(R.id.timePicker);
+        datePicker = (DatePicker) findViewById(R.id.datePicker);
+        timePicker = (TimePicker) findViewById(R.id.timePicker);
 
         Intent intentToFire = new Intent(MainActivity.this, AlarmReceiver.class);
+        intentToFire.setAction("com.example.androidfundamentals.ACTION_ALARM");
         alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        alarmIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intentToFire, 0);
+        alarmIntent = PendingIntent.getBroadcast(MainActivity.this, 1, intentToFire, 0);
 
         b.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
+                setAlarm();
 //                Calendar calendar = new GregorianCalendar(datePicker.getYear(),
 //                        datePicker.getMonth(),
 //                        datePicker.getDayOfMonth(),
 //                        timePicker.getCurrentHour(),
 //                        timePicker.getCurrentMinute());
+//
+//                calendar.add(Calendar.HOUR, -5);
 
-                Calendar calendar = Calendar.getInstance();
+                //Calendar calendar = Calendar.getInstance();
 //                calendar.set(Calendar.HOUR, 12); // At the hour you wanna fire
 //                calendar.set(Calendar.MINUTE, 16); // Particular minute
 //                calendar.set(Calendar.SECOND, 0);
 
                 //Toast.makeText(getApplicationContext(), Double.toString(calendar.getTimeInMillis()), Toast.LENGTH_SHORT).show();
-
-                int alarmType = AlarmManager.RTC_WAKEUP;
-                alarmManager.setRepeating(alarmType, calendar.getTimeInMillis(), 30*1000, alarmIntent);
+//                System.out.println(calendar.getTimeInMillis());
+//
+//                int alarmType = AlarmManager.RTC_WAKEUP;
+//                alarmManager.setInexactRepeating(alarmType, calendar.getTimeInMillis(), 60*1000, alarmIntent);
             }
         });
+    }
+
+    private void setAlarm() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.YEAR, datePicker.getYear());
+        calendar.set(Calendar.MONTH, datePicker.getDayOfMonth());
+        calendar.set(Calendar.HOUR_OF_DAY, timePicker.getCurrentHour()); // At the hour you wanna fire
+        calendar.set(Calendar.MINUTE, timePicker.getCurrentMinute()); // Particular minute
+        calendar.set(Calendar.SECOND, 0);
+
+        System.out.println(timePicker.getCurrentHour());
+        System.out.println(timePicker.getCurrentMinute());
+        System.out.println(calendar.getTimeInMillis());
+
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 60 * 1000, alarmIntent);
     }
 }
