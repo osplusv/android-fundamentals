@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <PreferenceCategory android:title="Settings" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="settingsTask"
+            android:summary="Ascending"
+            android:title="Task Order" >
+        </CheckBoxPreference>
+        <ListPreference
+            android:entries="@array/alarmLabels"
+            android:entryValues="@array/alarmValues"
+            android:key="settingsAlarm"
+            android:summary="Alarm Period"
+            android:title="Alarm" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="About" >
+        <PreferenceScreen
+            android:key="privacyPolicy"
+            android:title="PrivacyPolicy" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.example.androidfundamentals.ActivityPrivacyPolicy"
+                android:targetPackage="com.example.androidfundamentals" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:key="iteso"
+            android:title="ITESO" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.example.androidfundamentals.ActivityIteso"
+                android:targetPackage="com.example.androidfundamentals" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

@@ -28,8 +28,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.settings:
+                intent = new Intent(this, ActivityPreference.class);
+                startActivity(intent);
                 return true;
             case R.id.logout:
 
@@ -41,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 editor.remove("LOGGED");
                 editor.apply();
 
-                Intent intent = new Intent(this, LoginActivity.class);
+                intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
                 return true;
             default:
